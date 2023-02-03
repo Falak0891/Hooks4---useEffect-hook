@@ -1,11 +1,9 @@
-import Input from "./Components/InputWithFunction";
+import Blog from "./Components/Blog";
 
 function App() {
   return (
     <>
-      <Input />
-
-     
+      <Blog />
     </>
   );
 }
