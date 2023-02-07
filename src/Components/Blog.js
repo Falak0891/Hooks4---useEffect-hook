@@ -1,5 +1,5 @@
 //Blogging App using Hooks
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Blog(){
 
@@ -11,12 +11,37 @@ export default function Blog(){
     //useRef hook initialized
     const titleRef = useRef(null);
 
+    // 1. Combination of componentDidMount and componentDidUpdate
+    // Runs on mount and then every upadate
+    // useEffect(() => {
+    //   console.log("Running useEffect");
+    // });
+
+    // 2. Just runs on mount because it has no dependency
+    // Focus in Title input on mount
+    useEffect(() => {
+        titleRef.current.focus();
+    },[]);
+
+    useEffect(() => {
+        // 3. Required to add Title of the latest blog as page's title
+        // Show Dependency Injection of blogs
+        // Helps us avoid rerun logic on title and content change
+        // Still has both DidMount and DidUpdate feature
+        
+        console.log("Runs on Blogs Mount/Update!!");
+        if (blogs.length && blogs[0].title) {
+          document.title = blogs[0].title;
+        } else {
+          document.title = "No blogs!";
+        }
+      }, [blogs]);
+
     function handleSubmit(e){
         e.preventDefault();
 
         setBlogs([{title: formData.title,content:formData.content}, ...blogs]);
         setformData({title:"", content:""});
-
         //Setting focus on title after adding a blog
         titleRef.current.focus();
         console.log(blogs);
