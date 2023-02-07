@@ -3,14 +3,15 @@ import { useState } from "react";
 
 export default function Blog(){
 
-    const [title,setTitle] = useState("");
-    const [content,setContent] = useState("");
+    // const [title,setTitle] = useState("");
+    // const [content,setContent] = useState("");
+    const [formData, setformData] = useState({title:"", content:""})
     const [blogs, setBlogs] =  useState([]);
 
     function handleSubmit(e){
         e.preventDefault();
 
-        setBlogs([{title,content}, ...blogs]);
+        setBlogs([{title: formData.title,content:formData.content}, ...blogs]);
         console.log(blogs);
     }
 
@@ -24,14 +25,16 @@ export default function Blog(){
                 <Row label="Title">
                         <input className="input"
                                 placeholder="Enter the Title of the Blog here.."
-                                onChange = {(e) => setTitle(e.target.value)}
+                                value={formData.title}
+                                onChange = {(e) => setformData({title: e.target.value, content:formData.content})}
                         />
                 </Row >
 
                 <Row label="Content">
                         <textarea className="input content"
                                 placeholder="Content of the Blog goes here.."
-                                onChange = {(e) => setContent(e.target.value)}
+                                value={formData.content}
+                                onChange = {(e) => setformData({title: formData.title,content: e.target.value})}
                         />
                 </Row >
          
