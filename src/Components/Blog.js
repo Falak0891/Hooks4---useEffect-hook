@@ -1,33 +1,34 @@
 //Blogging App using Hooks
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 
+// 2. Reducer function
+const blogsReducer = (state, action) => {
+    switch (action.type) {
+      case "ADD":
+        return [action.blog, ...state];
+      case "REMOVE":
+        return state.filter((blog, index) => index !== action.index);
+      default:
+        return [];
+    }
+  };
 export default function Blog(){
 
-    // const [title,setTitle] = useState("");
-    // const [content,setContent] = useState("");
     const [formData, setformData] = useState({title:"", content:""})
-    const [blogs, setBlogs] =  useState([]);
+    //const [blogs, setBlogs] =  useState([]);
     
+    //1. replacing useState for blogs with useReducer hook
+    
+    const [blogs, dispatch] = useReducer(blogsReducer,[]);
+
     //useRef hook initialized
     const titleRef = useRef(null);
 
-    // 1. Combination of componentDidMount and componentDidUpdate
-    // Runs on mount and then every upadate
-    // useEffect(() => {
-    //   console.log("Running useEffect");
-    // });
-
-    // 2. Just runs on mount because it has no dependency
-    // Focus in Title input on mount
     useEffect(() => {
         titleRef.current.focus();
     },[]);
 
     useEffect(() => {
-        // 3. Required to add Title of the latest blog as page's title
-        // Show Dependency Injection of blogs
-        // Helps us avoid rerun logic on title and content change
-        // Still has both DidMount and DidUpdate feature
         
         console.log("Runs on Blogs Mount/Update!!");
         if (blogs.length && blogs[0].title) {
@@ -40,7 +41,10 @@ export default function Blog(){
     function handleSubmit(e){
         e.preventDefault();
 
-        setBlogs([{title: formData.title,content:formData.content}, ...blogs]);
+        //setBlogs([{title: formData.title,content:formData.content}, ...blogs]);
+        // 3. Replacing setBlogs with dispatch function
+        dispatch({type: "ADD", blog: {title:formData.title, content:formData.content}});
+
         setformData({title:"", content:""});
         //Setting focus on title after adding a blog
         titleRef.current.focus();
@@ -49,7 +53,9 @@ export default function Blog(){
 
     function removeBlog(i){
 
-        setBlogs( blogs.filter((blog,index)=> index !== i));
+        //setBlogs( blogs.filter((blog,index)=> index !== i));
+        //4. Replacing setBlogs with dispatch
+        dispatch({type: "REMOVE", index: i})
  
      }
 
