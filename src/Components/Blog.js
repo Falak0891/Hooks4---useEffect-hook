@@ -12,8 +12,15 @@ export default function Blog(){
         e.preventDefault();
 
         setBlogs([{title: formData.title,content:formData.content}, ...blogs]);
+        setformData({title:"", content:""});
         console.log(blogs);
     }
+
+    function removeBlog(i){
+
+        setBlogs( blogs.filter((blog,index)=> index !== i));
+ 
+     }
 
     return(
         <>
@@ -52,6 +59,17 @@ export default function Blog(){
                 <h3>{blog.title}</h3>
                 <hr/>
                 <p>{blog.content}</p>
+
+                <div className="blog-btn">
+                        <button onClick={() => {
+                            removeBlog(i)
+                        }}
+                        className="btn remove">
+
+                            Delete
+
+                        </button>
+                </div>
             </div>
         ))}
         
