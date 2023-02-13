@@ -1,9 +1,8 @@
-import Blog from "./Components/Blog";
-
+import Input from "./Components/InputWithFunction"
 function App() {
 
   return (
-    <Blog />
+    <Input />
     
   );
 }
