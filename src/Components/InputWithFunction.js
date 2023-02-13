@@ -8,15 +8,7 @@ export default function Input(){
 
     useEffect(()=>{
         document.title = name+" "+lastName;
-    },[]);
-
-    useEffect(()=> {
-        const timer = setInterval(() => {
-            console.log("Window-width: ",window.innerWidth);
-          }, 2000);
-          return(()=>{clearInterval(timer)})
-        }
-   );
+    },[name,lastName]);
    
     return(
         <>
